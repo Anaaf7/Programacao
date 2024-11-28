@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    padding: 0;
+    /*COR DO SITE*/
+    background-color: #253046;
+    /* IMAGEM */
+    background-image: url("imagens/sofa1.jpeg");
+    background-repeat: no-repeat;
+    background-position: left;  
+    height: 650px;
+    /*FONTE DA LETRA DO SITE*/
+    font-family: "Poppins", sans-serif;
+}
+
+/* CABEÇALHO */
+header {
+    text-align: right;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+/* OPÇÕES QUE LEVAM A OUTRAS PÁGINAS */
+a {  
+    color: white;
+    text-decoration: none;
+}
+
+/* MEIO DO SITE */
+.tmarca {
+    text-align: right;
+    margin-top: 110px;
+    margin-right: 130px;
+    font-family: "Poppins", sans-serif;
+    line-height: 70px;
+    font-size: 70px;
+    font-weight: 800; 
+    color: white; 
+    text-shadow: 6px 6px 6px rgb(34, 84, 124);
+}
+
+.slogan {
+    text-align: right;
+    margin-right: 100px;
+    margin-top: -20px;
+    font-family: "Courier New", monospace;
+    font-size: 30px;
+    color: #ffffff; 
+    text-shadow: 5px 5px 5px rgb(34, 84, 124);
+}
+
+/* RODAPÉ */
+footer {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px; 
+    gap: 30px; /* Espaçamento entre os itens */
+}

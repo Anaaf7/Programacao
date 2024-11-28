@@ -1,0 +1,101 @@
+body {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    /*COR DO SITE*/
+    background: linear-gradient(to left, #253046 , #607cb4);
+    /*FONTE DA LETRA DO SITE*/
+    font-family: "Poppins", sans-serif;
+}
+.content {
+    min-height: calc(100vh - 100px); /* 100vh (altura da tela) - altura do rodapé */
+    padding: 20px;}
+
+/* CABEÇALHO */
+header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-right: 20px;
+}
+
+.tmarca {
+    color: white;
+    font-style: italic;
+    font-size: 20px;
+    margin-left: 20px;
+    letter-spacing: -1px;
+    text-shadow: 4px 4px 4px black;
+}
+
+.centralizar{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 0.1px;
+}
+
+input{
+    text-align: center;
+    padding: 10px;
+}
+
+.adm{
+    border: white;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+fieldset{
+    background-color: rgba(211, 211, 211, 0.9); 
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+button{
+    background-color: #253046;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+h2{
+    color: black;
+    font-size: 30px;
+}
+
+a {  
+    color: white;
+    text-decoration: none;
+}
+
+table, td, th{
+    background-color: white;
+    border: solid 1px black;
+    padding: 8px;
+    padding-top: 2px;
+    border-collapse: collapse;/*tirar linha duplicada*/
+}
+
+/* RODAPÉ */
+footer {
+        height: 100px; /* Altura fixa do rodapé */
+        color: white;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+
+
+   

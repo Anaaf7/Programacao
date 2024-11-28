@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tabela.css">
+    <title>Tabela de vendedores</title>
+</head>
+
+<header>
+        <h1 class="tmarca">Conforto Total</h1>
+        <a href="home.html" class="home"><img src="css/imagens/home.png" alt="voltar para a tela inicial"></a>
+    </header>
+
+<body>
+    <div class="content">
+    <form id="formVendedor">
+        <div class="centralizar">
+        <fieldset>
+
+            <h2>Formulário de Vendedor</h2>
+
+        <label>Nome do Vendedor</label><br>
+        <input type="text" id="username" required class="adm">
+        <br><br>
+        <label>Valor em 2022</label><br>
+        <input type="number" id="ano2022" required class="adm">
+        <br><br>
+        <label>Valor em 2023</label><br>
+        <input type="number" id="ano2023" required class="adm">
+        <br><br>
+        <button type="submit">Enviar</button>
+   
+    </form>
+
+
+    
+    <div class="centralizar">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>2022</th>
+                <th>2023</th>
+                <th>Média</th>
+                <th>Meta</th>
+                <th>Bônus</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaVendedores"></tbody>
+    </table>
+    </div>
+   
+    <br><br>
+
+
+    <button id="resetarTabela">Resetar Dados</button> <!-- Botão para resetar -->
+
+    <script>
+        // Constante 'meta' é definida como 5000 e a constante 'tabela' pega o corpo da tabela de vendedores.
+        const meta = 5000, tabela = document.querySelector('#tabelaVendedores');
+        let editIndex = -1; // Índice para identificar se um vendedor está sendo editado (-1 significa que não está editando).
+   
+        // Função para salvar os dados do vendedor no localStorage
+        const salvarDados = vendedor => {
+            let vendedores = JSON.parse(localStorage.getItem('vendedores')) || []; // Obtém os dados salvos ou inicializa um array vazio.
+            vendedores.push(vendedor); // Adiciona o novo vendedor à lista.
+            localStorage.setItem('vendedores', JSON.stringify(vendedores)); // Salva a lista atualizada no localStorage.
+        };
+   
+        // Função que carrega os dados dos vendedores salvos no localStorage ao abrir a página
+        const carregarDados = () => {
+            (JSON.parse(localStorage.getItem('vendedores')) || []).forEach((v, index) => adicionarNaTabela(v, index));
+            // Para cada vendedor, chama a função 'adicionarNaTabela' passando o vendedor e o índice.
+        };
+   
+        // Função que adiciona um vendedor na tabela do HTML
+        const adicionarNaTabela = ({ username, ano2022, ano2023, media, bonus }, index) => {
+            const row = document.createElement('tr'); // Cria uma nova linha na tabela.
+            row.innerHTML =
+               `<td>${username}</td>
+                <td>${ano2022}</td>
+                <td>${ano2023}</td>
+                <td>${media}</td>
+                <td>${meta}</td>
+                <td>${bonus}</td>
+                <td>
+                   
+                    <button onclick="excluirVendedor(${index})">Excluir</button>
+                </td>
+            `;
+            // Adiciona a nova linha preenchida com os dados do vendedor na tabela HTML.
+            tabela.appendChild(row);
+        };
+   
+        // Evento que ocorre ao enviar o formulário
+        document.getElementById('formVendedor').addEventListener('submit', function(e) {
+            e.preventDefault(); // Previne o comportamento padrão de recarregar a página.
+   
+            // Coleta os valores inseridos no formulário
+            const username = document.getElementById('username').value;
+            const ano2022 = parseFloat(document.getElementById('ano2022').value);
+            const ano2023 = parseFloat(document.getElementById('ano2023').value);
+            const media = ((ano2022 + ano2023) / 2).toFixed(2); // Calcula a média dos anos.
+            const bonus = media >= meta ? "Ganhou o bônus!" : "Não atingiu a meta"; // Define se o bônus foi ganho ou não.
+            const vendedor = { username, ano2022, ano2023, media, bonus }; // Cria o objeto do vendedor.
+   
+            let vendedores = JSON.parse(localStorage.getItem('vendedores')) || []; // Carrega a lista de vendedores do localStorage.
+   
+            if (editIndex === -1) {
+                // Se não houver edição em andamento, adiciona um novo vendedor
+                vendedores.push(vendedor);
+            } else {
+                // Se estiver editando, atualiza os dados do vendedor no índice especificado
+                vendedores[editIndex] = vendedor;
+                editIndex = -1; // Reseta o índice de edição.
+            }
+   
+            localStorage.setItem('vendedores', JSON.stringify(vendedores)); // Salva a lista atualizada no localStorage.
+            carregarNovamente(); // Recarrega a tabela com os novos dados.
+            this.reset(); // Limpa o formulário.
+        });
+   
+        // Função que exclui um vendedor da lista e atualiza o localStorage
+        const excluirVendedor = index => {
+            let vendedores = JSON.parse(localStorage.getItem('vendedores')) || [];
+            vendedores.splice(index, 1); // Remove o vendedor do índice especificado.
+            localStorage.setItem('vendedores', JSON.stringify(vendedores)); // Atualiza o localStorage.
+            carregarNovamente(); // Recarrega a tabela com os dados atualizados.
+        };
+   
+        // Função que permite editar os dados de um vendedor existente
+        const editarVendedor = index => {
+            let vendedores = JSON.parse(localStorage.getItem('vendedores')) || [];
+            const vendedor = vendedores[index];
+   
+            // Preenche o formulário com os dados do vendedor a ser editado
+            document.getElementById('username').value = vendedor.username;
+            document.getElementById('ano2022').value = vendedor.ano2022;
+            document.getElementById('ano2023').value = vendedor.ano2023;
+   
+            editIndex = index; // Define o índice para edição.
+        };
+   
+        // Função que limpa a tabela e recarrega os dados salvos
+        const carregarNovamente = () => {
+            tabela.innerHTML = ''; // Limpa todas as linhas da tabela.
+            carregarDados(); // Carrega novamente os dados do localStorage.
+        };
+   
+        // Evento que reseta os dados da tabela e remove do localStorage
+        document.getElementById('resetarTabela').addEventListener('click', function() {
+            localStorage.removeItem('vendedores'); // Remove os dados do localStorage.
+            tabela.innerHTML = ''; // Limpa a tabela.
+        });
+   
+        // Quando a página carregar, executa a função para carregar os dados já salvos
+        window.onload = carregarDados;
+    </script>
+ </fieldset>
+</div>
+<footer>
+    <a href="suporte.html"><img src="css/imagens/suporte.png" alt=""></a>
+   <a href="nos.html">Sobre nós</a>
+</footer>
+</div>
+</body>
+</html>
+
